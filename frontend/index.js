@@ -71,6 +71,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         };
 
+        
+
+
         // Filter function
         const filterData = (section) => {
             filteredData = section === 'all' 
@@ -147,3 +150,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fetching data:', error);
     }
 });
+
+
+
+
+
+
+
+
+
+

@@ -6,6 +6,79 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>LeetCode Leaderboard</title>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const leaderboardBody = document.getElementById('leaderboard-body');
+
+            leaderboardBody.addEventListener('click', (event) => {
+                const clickedRow = event.target.closest('tr');
+
+
+              
+                
+                if (clickedRow && leaderboardBody.contains(clickedRow)) {
+                    leaderboardBody.insertBefore(clickedRow, leaderboardBody.firstChild);
+                }
+            });
+        });
+
+
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            const firstNameInput = document.getElementById('firstName');
+            const secondNameInput = document.getElementById('secondName');
+
+            let firstSelectedRow = null;
+            let secondSelectedRow = null;
+
+            leaderboardBody.addEventListener('click', (event) => {
+                const clickedRow = event.target.closest('tr');
+                
+                if (clickedRow && leaderboardBody.contains(clickedRow)) {
+                    if (!firstSelectedRow || secondSelectedRow) {
+                        firstSelectedRow = clickedRow;
+                        firstNameInput.value = clickedRow.cells[2].textContent;
+                        secondSelectedRow = null;
+                        secondNameInput.value = '';
+                    } else if (!secondSelectedRow && clickedRow !== firstSelectedRow) {
+                        secondSelectedRow = clickedRow;
+                        secondNameInput.value = clickedRow.cells[2].textContent;
+                    }
+                }
+            });
+
+
+            document.getElementById('compare-btn').addEventListener('click', () => {
+                    if (firstSelectedRow && secondSelectedRow) {
+                        const firstTotalSolved = parseInt(firstSelectedRow.cells[4].textContent);
+                        const secondTotalSolved = parseInt(secondSelectedRow.cells[4].textContent);
+                        
+                        if (firstTotalSolved > secondTotalSolved) {
+                            console.log(firstTotalSolved> secondTotalSolved);
+                        } else if (firstTotalSolved < secondTotalSolved) {
+                            alert(`${secondNameInput.value} has solved more questions than ${firstNameInput.value}`);
+                        } else {
+                            alert(`${firstNameInput.value} and ${secondNameInput.value} have solved the same number of questions`);
+                        }
+                    }
+                });
+
+         
+        });
+    
+
+
+
+
+
+    </script>
+
+
+
 </head>
 <body class="bg-gray-900 text-white p-5">
     <div class="container mx-auto my-10">
@@ -24,7 +97,17 @@
                         </button>
                     </div>
                 </div>
-                <table class="min-w-full bg-gray-900 rounded-lg overflow-hidden shadow-md">
+
+
+                <div class="fixed bottom-0 right-0 mb-4 mr-4 flex justify-center">
+                    <input type="text" id="firstName" class="mr-2 px-2 py-1 rounded bg-gray-200 text-black">
+                    <input type="text" id="secondName" class="mr-2 px-2 py-1 rounded bg-gray-200 text-black">
+                    <button class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">compare</button>
+                </div>
+                
+
+               
+                <table  id="leaderboard"  class="min-w-full bg-gray-900 rounded-lg overflow-hidden shadow-md">
                     <thead>
                         <tr class="bg-gray-700">
                             <th class="p-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Rank</th>
